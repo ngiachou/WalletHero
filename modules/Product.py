@@ -3,11 +3,11 @@ class Product:
         self.name = name
         self.price = float(price)
     
-def main():     #Testing a signle Product
+"""def main():     #Testing a signle Product
     
     beer = Product("Beer", 2)
     print(beer.name, " ", beer.price)
     print(type(beer.price))
 
 if __name__ == "__main__":
-    main()
+    main()"""
