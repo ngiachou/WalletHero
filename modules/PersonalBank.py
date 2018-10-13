@@ -29,8 +29,7 @@ class PersonalBank:
     
         sorted_list = sorted(history_of_transactions, 
                 key = lambda Transaction: Transaction.date)
-        for i in sorted_list:
-            print(i)
+        return sorted_list
 
     def __repr__(self):
         
@@ -59,7 +58,8 @@ if __name__ == "__main__":
     a_personal_bank = PersonalBank()
     b_personal_bank = PersonalBank(400)
     
-    PersonalBank.show_transaction_history(a_history_of_transactions)
+    print(PersonalBank.show_transaction_history(a_history_of_transactions))
+    
     print(a_personal_bank)                      #testing repr function
 
     assert(b_personal_bank.balance == 400)      #testing if balance can take a value manually
