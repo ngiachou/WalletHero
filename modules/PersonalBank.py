@@ -51,12 +51,11 @@ if __name__ == "__main__":
     
     a_history_of_transactions = []
     
-    PersonalBank.add_transaction(a_history_of_transactions, a_transaction)
-    PersonalBank.add_transaction(a_history_of_transactions, b_transaction)
-    
-    # my_transactions = [PersonalBank.add_transaction(b_transaction),
-                        # PersonalBank.add_transaction(a_transaction)]
-    
     my_personal_bank = PersonalBank(350, a_history_of_transactions)
+    
+    PersonalBank.add_transaction(a_history_of_transactions, a_transaction)
+    PersonalBank.add_transaction(a_history_of_transactions, b_transaction) 
+    
+    
 
     PersonalBank.show_transaction_history(a_history_of_transactions)
