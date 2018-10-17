@@ -14,20 +14,18 @@ class PersonalBank:
     """
 
     
-    def __init__(self, balance = None):      
+    def __init__(self, balance = 350):
         
-        if balance == None:
-            self.balance = 350
-        else:
-            self.balance = balance
+        self.balance = balance
+        self.history_of_transactions = []
 
-    def add_transaction(history_of_transactions, transaction):
+    def add_transaction(self, transaction):
 
-        history_of_transactions.append(transaction)
+        self.history_of_transactions.append(transaction)  
 
-    def show_transaction_history(history_of_transactions):
+    def get_transaction_history(self):
     
-        sorted_list = sorted(history_of_transactions, 
+        sorted_list = sorted(self.history_of_transactions, 
                 key = lambda Transaction: Transaction.date)
         return sorted_list
 
@@ -50,17 +48,15 @@ if __name__ == "__main__":
     b_product_list = coffee
     b_transaction = Transaction(b_product_list, "significant other", "out", b_date)
     
-    a_history_of_transactions = []
+    p1 = PersonalBank()
+    p2 = PersonalBank(400)
     
-    PersonalBank.add_transaction(a_history_of_transactions, a_transaction)
-    PersonalBank.add_transaction(a_history_of_transactions, b_transaction) 
+    p1.add_transaction(a_transaction)
+    p1.add_transaction(b_transaction) 
+   
+    print(p1.get_transaction_history())
     
-    a_personal_bank = PersonalBank()
-    b_personal_bank = PersonalBank(400)
-    
-    print(PersonalBank.show_transaction_history(a_history_of_transactions))
-    
-    print(a_personal_bank)                      #testing repr function
+    print(p1)                      #testing repr function
 
-    assert(b_personal_bank.balance == 400)      #testing if balance can take a value manually
+    assert(p2.balance == 400)      #testing if balance can take a value manually
     
