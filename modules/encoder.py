@@ -1,6 +1,5 @@
 import json
 import datetime
-import pprint
 import PersonalBank as pb
 import Product as pr
 import Transaction as tr
@@ -31,14 +30,35 @@ class TransactionEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
+class PersonalBankEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, pb.PersonalBank):
+            return {
+                "balance": obj.balance,
+                "history": [TransactionEncoder.default(self, t)
+                            for t in obj.get_transaction_history()]
+            }
+
+
 if __name__ == "__main__":
     p = pr.Product("Beer", 2.5)
-    json_string = json.dumps(p, cls=ProductEncoder)
 
-    pprint.pprint(json.loads(json_string))
+    json_string = json.dumps(p, cls=ProductEncoder, indent=2, sort_keys=True)
+
+    print(json_string)
 
     p2 = pr.Product("Pizza", 9.0)
     t = tr.Transaction([p, p2], "friends", "in", datetime.date.today())
-    json_string = json.dumps(t, cls=TransactionEncoder)
 
-    pprint.pprint(json.loads(json_string))
+    json_string = json.dumps(t, cls=TransactionEncoder,
+                             indent=2, sort_keys=True)
+
+    print(json_string)
+
+    personal_bank = pb.PersonalBank()
+    personal_bank.add_transaction(t)
+
+    json_string = json.dumps(personal_bank, cls=PersonalBankEncoder,
+                             indent=2, sort_keys=True)
+    print(json_string)
