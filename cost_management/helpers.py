@@ -1,8 +1,8 @@
 import json
 import datetime
-import PersonalBank as pb
-import Product as pr
-import Transaction as tr
+import account as pb
+import cost_types.base_type as pr
+import transaction as tr
 
 
 class ProductEncoder(json.JSONEncoder):

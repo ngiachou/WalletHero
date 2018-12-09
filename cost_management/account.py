@@ -1,5 +1,5 @@
-from Transaction import Transaction
-from Product import Product
+from transaction import Transaction
+from cost_types.base_type import Product
 import datetime
 
 
