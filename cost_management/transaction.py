@@ -1,4 +1,4 @@
-from Product import Product
+from cost_types.base_type import Product
 import datetime
 
 
@@ -25,7 +25,6 @@ class Transaction:
 
 
 if __name__ == "__main__":
-
     a_date = datetime.date(2018, 10, 2)  # creating a date
 
     beer = Product("Beer", 4.50)
