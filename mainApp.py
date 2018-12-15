@@ -6,7 +6,10 @@ from datetime import date
 def main_menu():
     print("1. Input cost")
     print("2. Statistics")
-    ans = input("please choose 1 or 2: ")
+    ans = input("please choose 1 or 2 (0 for exit): ")
+
+    if ans == "0":
+        exit()
 
     if ans == "2":
         print("\n1. Show costs per month\n"
@@ -41,8 +44,9 @@ def runApp():
     else:
         print("Welcome to wallet hero!")
         name = input("Please could you share your name? ")
-        print("The current month is ", cur_month)
-        target = input("Please give me the target expenses for " + cur_month
+        print(name + ", the current month is ", cur_month)
+        target = input(name + ", please give me the target expenses for "
+                       + cur_month
                        + ": ")
 
         # TODO create account object
