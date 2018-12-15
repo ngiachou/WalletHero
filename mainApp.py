@@ -16,6 +16,10 @@ def main_menu():
               + "2. Show costs per month per day\n"
               + "3. Show costs per month per cost category\n"
               + "4. Show costs per month per day per cost category")
+        ans = input("please choose 1, 2, 3 or 4 (0 for exit): ")
+
+        if ans == "0":
+            exit()
 
 
 def getLastEntryMonth(filename):
