@@ -28,7 +28,15 @@ class Account:
         self.transactions_per_date = {}
 
     def new_transaction(self, transaction_str, date_str):
-        """Adding a new transaction into transactions_per_date attribute"""
+        """
+        Adding a new transaction into transactions_per_date attribute.
+
+        @param: transaction_str -- string representing a transaction
+        for example, 'food:5.5,drink:2.5'
+
+        @param: date_str -- string representing a date, must be in ISO format
+        and earlier than today, for example, '2018-12-10'
+        """
         date_obj = date.fromisoformat(date_str)
         self.transactions_per_date.setdefault(date_obj, [])
 
@@ -70,3 +78,5 @@ class Account:
 
 if __name__ == "__main__":
     account = Account("Nikos", 200, 200)
+
+    account.new_transaction()
