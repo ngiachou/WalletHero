@@ -1,6 +1,7 @@
 from transaction import Transaction
 from cost_types.base_type import Product
-import datetime
+from datetime import date
+import re
 
 
 class Account:
@@ -25,9 +26,14 @@ class Account:
         self._balance = balance
         self.transactions_per_date = {}
 
-    def new_transaction(self):
-        # TODO implement
-        raise NotImplementedError()
+    def new_transaction(self, transaction_str, date_str):
+        """Adding a new transaction into transactions_per_date attribute"""
+        date_obj = date.fromisoformat(date_str)
+        self.transactions_per_date.setdefault(date_obj, [])
+
+        transaction = self.parse_transaction(transaction_str, date_obj)
+
+        self.transactions_per_date[date_str].append(transaction)
 
     def change_balance(self, amount):
         """Changing balance according to amount's value with some checks"""
@@ -37,16 +43,23 @@ class Account:
 
         self._balance += amount
 
+    def parse_transaction(self, transaction_str, date_obj):
+        """
+        Parsing the transaction string.
+
+        @param: transaction_str -- string representing a transaction
+        for example 'food:5.5,drink:2.5'
+        """
+        matches = re.match(r"(\w+):(\d+\.\d+),*")
+
+        # instantiate products
+        products = []
+        for match in matches:
+            product = Product(match.group(1), float(match.group(2)))
+            products.append(product)
+
+        return Transaction(products, "", "", date_obj)
+
 
 if __name__ == "__main__":
-    beer = Product("Beer", 3.5)                 # Creating a transaction
-    pizza = Product("Pizza", 7)
-    a_date = datetime.date(2018, 10, 2)
-    a_product_list = [beer, pizza]
-    a_transaction = Transaction(a_product_list, "friends", "in", a_date)
-
-    coffee = Product("Coffee", 3)               # Creating a second transaction
-    b_date = datetime.date(2018, 10, 1)
-    b_product_list = coffee
-    b_transaction = Transaction(b_product_list, "significant other", "out",
-                                b_date)
+    pass
