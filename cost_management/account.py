@@ -23,7 +23,8 @@ class Account:
         representing the target total cost of the current month
         """
         self.user = user
-        self._balance = balance
+        self._balance = float(balance)
+        self._monthly_target = float(monthly_target)
         self.transactions_per_date = {}
 
     def new_transaction(self, transaction_str, date_str):
@@ -34,14 +35,7 @@ class Account:
         transaction = self.parse_transaction(transaction_str, date_obj)
 
         self.transactions_per_date[date_str].append(transaction)
-
-    def change_balance(self, amount):
-        """Changing balance according to amount's value with some checks"""
-        if amount < 0 and self._balance < -amount:
-            raise ValueError("cannot substract " + amount + " from "
-                             + self._balance)
-
-        self._balance += amount
+        self.update_balance(transaction)
 
     def parse_transaction(self, transaction_str, date_obj):
         """
@@ -60,6 +54,19 @@ class Account:
 
         return Transaction(products, "", "", date_obj)
 
+    def change_balance(self, amount):
+        """Changing balance according to amount's value with some checks"""
+        if amount < 0 and self._balance < -amount:
+            raise ValueError("cannot substract " + amount + " from "
+                             + self._balance)
+
+        self._balance += amount
+
+    def update_balance(self, transaction):
+        """Updating balance according to a transaction"""
+        for product in transaction.product_list:
+            self.change_balance(-product.price)
+
 
 if __name__ == "__main__":
-    pass
+    account = Account("Nikos", 200, 200)
