@@ -42,7 +42,7 @@ class Account:
             raise ValueError("cannot use dates in the future: "
                              + date_obj.isoformat())
 
-        self.transactions_per_date.setdefault(date_obj, [])
+        self.transactions_per_date.setdefault(date_str, [])
 
         transaction = self.parse_transaction(transaction_str, date_obj)
 
@@ -56,7 +56,7 @@ class Account:
         @param: transaction_str -- string representing a transaction
         for example 'food:5.5,drink:2.5'
         """
-        matches = re.match(r"(\w+):(\d+\.\d+),*")
+        matches = re.finditer(r"(\w+):(\d+\.\d+),*", transaction_str)
 
         # instantiate products
         products = []
