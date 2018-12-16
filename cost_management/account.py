@@ -38,6 +38,10 @@ class Account:
         and earlier than today, for example, '2018-12-10'
         """
         date_obj = date.fromisoformat(date_str)
+        if date.today() < date_obj:
+            raise ValueError("cannot use dates in the future: "
+                             + date_obj.isoformat())
+
         self.transactions_per_date.setdefault(date_obj, [])
 
         transaction = self.parse_transaction(transaction_str, date_obj)
@@ -79,4 +83,4 @@ class Account:
 if __name__ == "__main__":
     account = Account("Nikos", 200, 200)
 
-    account.new_transaction()
+    account.new_transaction("food:5.5,drink:2.5", "2018-12-10")
