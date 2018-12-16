@@ -22,10 +22,14 @@ class Account:
         representing the target total cost of the current month
         """
         self.user = user
-        self.balance = balance
+        self._balance = balance
         self.transactions_per_date = {}
 
     def new_transaction(self):
+        # TODO implement
+        raise NotImplementedError()
+
+    def change_balance(self, amount):
         # TODO implement
         raise NotImplementedError()
 
