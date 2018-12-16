@@ -30,8 +30,12 @@ class Account:
         raise NotImplementedError()
 
     def change_balance(self, amount):
-        # TODO implement
-        raise NotImplementedError()
+        """Changing balance according to amount's value with some checks"""
+        if amount < 0 and self._balance < -amount:
+            raise ValueError("cannot substract " + amount + " from "
+                             + self._balance)
+
+        self._balance += amount
 
 
 if __name__ == "__main__":
@@ -44,4 +48,5 @@ if __name__ == "__main__":
     coffee = Product("Coffee", 3)               # Creating a second transaction
     b_date = datetime.date(2018, 10, 1)
     b_product_list = coffee
-    b_transaction = Transaction(b_product_list, "significant other", "out", b_date)
+    b_transaction = Transaction(b_product_list, "significant other", "out",
+                                b_date)
