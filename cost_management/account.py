@@ -39,8 +39,9 @@ class Account:
         """
         date_obj = date.fromisoformat(date_str)
         if date.today() < date_obj:
-            raise ValueError("cannot use dates in the future: "
-                             + date_obj.isoformat())
+            raise ValueError("cannot use dates in the future. "
+                             + "Your date was " + date_obj.isoformat()
+                             + " but today is " + date.today().isoformat())
 
         self.transactions_per_date.setdefault(date_str, [])
 
@@ -84,3 +85,6 @@ if __name__ == "__main__":
     account = Account("Nikos", 200, 200)
 
     account.new_transaction("food:5.5,drink:2.5", "2018-12-10")
+
+    assert(account._balance == 200 - 5.5 - 2.5)
+    account.new_transaction("", "2019-01-01")  # Testing future dates
