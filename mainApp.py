@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 from datetime import date
 
@@ -79,13 +80,21 @@ class WalletHeroApp:
             else:
                 print(ans + " is not an available choice. Chose again.")
 
+    def clear_screen(self):
+        if sys.platform == "win32":
+            os.system('cls')
+        else:
+            os.system('clear')
+
     def top_menu(self):
-        print("\n1. Input cost")
+        self.clear_screen()
+        print("1. Input cost")
         print("2. Statistics")
         return input("please chose 1 or 2 (0 for exit): ")
 
     def statistics_sub_menu(self):
-        print("\n1. Show costs per month\n"
+        self.clear_screen()
+        print("1. Show costs per month\n"
               + "2. Show costs per month per day\n"
               + "3. Show costs per month per cost category\n"
               + "4. Show costs per month per day per cost category\n"
