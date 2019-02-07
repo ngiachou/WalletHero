@@ -1,62 +1,90 @@
 from transaction import Transaction
 from cost_types.base_type import Product
-import datetime
+from datetime import date
+import re
 
 
-class PersonalBank:
-
+class Account:
 
     """
     Takes the users balance and his history of transactions.
-    PersonalBank's methonds create and add a transaction into the list of 
-    transactions (add_transaction) and return a list of transactions until
-    now in chronological order (show_transaction_history).
+    Account's methods create and add a transaction into the dictionary of
+    transactions (new_transaction).
     """
 
-    
-    def __init__(self, balance = 350):
-        
-        self.balance = balance
-        self.history_of_transactions = []
+    def __init__(self, user, balance=0.0, monthly_target=0.0):
+        """
+        Sets some initial values.
 
-    def add_transaction(self, transaction):
+        @param user -- string which represents the user
+        @param balance (default 0.0) -- floating point number representing the
+        total balance
+        @param monthly_target (default 0.0) -- floating point number
+        representing the target total cost of the current month
+        """
+        self.user = user
+        self._balance = float(balance)
+        self._monthly_target = float(monthly_target)
+        self.transactions_per_date = {}
 
-        self.history_of_transactions.append(transaction)  
+    def new_transaction(self, transaction_str, date_str):
+        """
+        Adding a new transaction into transactions_per_date attribute.
 
-    def get_transaction_history(self):
-    
-        sorted_list = sorted(self.history_of_transactions, 
-                key = lambda Transaction: Transaction.date)
-        return sorted_list
+        @param: transaction_str -- string representing a transaction
+        for example, 'food:5.5,drink:2.5'
 
-    def __repr__(self):
-        
-        return "{}".format(self.balance)
-        
-        
-        
+        @param: date_str -- string representing a date, must be in ISO format
+        and earlier than today, for example, '2018-12-10'
+        """
+        date_obj = date.fromisoformat(date_str)
+        if date.today() < date_obj:
+            raise ValueError("cannot use dates in the future. "
+                             + "Your date was " + date_obj.isoformat()
+                             + " but today is " + date.today().isoformat())
+
+        self.transactions_per_date.setdefault(date_str, [])
+
+        transaction = self.parse_transaction(transaction_str, date_obj)
+
+        self.transactions_per_date[date_str].append(transaction)
+        self.update_balance(transaction)
+
+    def parse_transaction(self, transaction_str, date_obj):
+        """
+        Parsing the transaction string.
+
+        @param: transaction_str -- string representing a transaction
+        for example 'food:5.5,drink:2.5'
+        """
+        matches = re.finditer(r"(\w+):(\d+\.\d+),*", transaction_str)
+
+        # instantiate products
+        products = []
+        for match in matches:
+            product = Product(match.group(1), float(match.group(2)))
+            products.append(product)
+
+        return Transaction(products, "", "", date_obj)
+
+    def change_balance(self, amount):
+        """Changing balance according to amount's value with some checks"""
+        if amount < 0 and self._balance < -amount:
+            raise ValueError("cannot substract " + amount + " from "
+                             + self._balance)
+
+        self._balance += amount
+
+    def update_balance(self, transaction):
+        """Updating balance according to a transaction"""
+        for product in transaction.product_list:
+            self.change_balance(-product.price)
+
+
 if __name__ == "__main__":
+    account = Account("Nikos", 200, 200)
 
-    beer = Product("Beer", 3.5)                 #Creating a transaction
-    pizza = Product("Pizza", 7)
-    a_date = datetime.date(2018, 10, 2)
-    a_product_list = [beer, pizza]
-    a_transaction = Transaction(a_product_list, "friends", "in", a_date)
+    account.new_transaction("food:5.5,drink:2.5", "2018-12-10")
 
-    coffee = Product("Coffee", 3)               #Creating a second transaction
-    b_date = datetime.date(2018, 10, 1)
-    b_product_list = coffee
-    b_transaction = Transaction(b_product_list, "significant other", "out", b_date)
-    
-    p1 = PersonalBank()
-    p2 = PersonalBank(400)
-    
-    p1.add_transaction(a_transaction)
-    p1.add_transaction(b_transaction) 
-   
-    print(p1.get_transaction_history())
-    
-    print(p1)                      #testing repr function
-
-    assert(p2.balance == 400)      #testing if balance can take a value manually
-    
+    assert(account._balance == 200 - 5.5 - 2.5)
+    account.new_transaction("", "2019-01-01")  # Testing future dates
