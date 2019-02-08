@@ -1,4 +1,4 @@
-from cost_types.base_type import Product
+from .cost_types.base_type import Product
 import datetime
 
 

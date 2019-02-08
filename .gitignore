@@ -102,3 +102,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# PyCharm project settings
+.idea/
+
+# VSCode project settings
+.vscode/
+
+# Specific files
+*.json
+git-branch-not-on-remote.sh
