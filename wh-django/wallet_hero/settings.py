@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # my apps
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
     'users',
 ]
 
