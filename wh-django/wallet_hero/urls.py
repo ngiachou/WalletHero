@@ -22,4 +22,5 @@ urlpatterns = [
 
     # my urls
     path('', include('users.urls')),
+    path('', include('register.urls')),
 ]
