@@ -2,10 +2,14 @@
 git-branch-not-on-remote.sh
 
 # ignore idea project settings
-.idea
+.idea/
 
 # ignore vscode project settings
 .vscode
+
+# ignore sublime project settings
+*.sublime-project
+*.sublime-workspace
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -63,7 +67,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+# db.sqlite3 -- since everything is stored locally (bad idea) we need this
 
 # Flask stuff:
 instance/
@@ -111,3 +115,25 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Ionic project dependencies
+.ionic/
+.sourcemaps/
+.sass-cache/
+.tmp/
+.versions/
+coverage/
+www/
+node_modules/
+tmp/
+temp/
+platforms/
+plugins/
+plugins/android.json
+plugins/ios.json
+$RECYCLE.BIN/
+
+# Windows and MacOSx cache files
+.DS_Store
+Thumbs.db
+UserInterfaceState.xcuserstate
