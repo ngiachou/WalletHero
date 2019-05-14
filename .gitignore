@@ -1,3 +1,12 @@
+# ignore specific scripts
+git-branch-not-on-remote.sh
+
+# ignore idea project settings
+.idea
+
+# ignore vscode project settings
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
